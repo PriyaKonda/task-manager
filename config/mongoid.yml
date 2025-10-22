@@ -1,0 +1,23 @@
+development:
+  clients:
+    default:
+      database: <%= ENV['DATABASE_NAME_DEV'] %>
+      hosts:
+        - <%= ENV['DB_HOST'] %>
+      options:
+        server_selection_timeout: 5
+
+  options:
+
+
+
+test:
+  clients:
+    default:
+      database: <%= ENV['DATABASE_NAME_TEST'] %>
+      hosts:
+        - <%= ENV['DB_HOST'] %>
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1

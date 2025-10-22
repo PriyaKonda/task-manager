@@ -1,0 +1,81 @@
+<%= form_with model: @task, class: "mb-4" do |f| %>
+  <% if @task.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@task.errors.count, "error") %> prevented this task from being saved:</h4>
+      <ul>
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :title, class: "form-label" %>
+    <%= f.text_field :title, class: "form-control #{'is-invalid' if @task.errors[:title].any?}" %>
+    <% if @task.errors[:title].any? %>
+      <div class="invalid-feedback">
+        <%= @task.errors[:title].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, class: "form-label" %>
+    <%= f.text_area :description, class: "form-control #{'is-invalid' if @task.errors[:description].any?}", rows: 4 %>
+    <% if @task.errors[:description].any? %>
+      <div class="invalid-feedback">
+        <%= @task.errors[:description].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :status, class: "form-label" %>
+    <%= f.select :status, 
+        options_for_select([
+          ["Pending", "pending"],
+          ["In Progress", "in_progress"],
+          ["Completed", "completed"]
+        ], @task.status),
+        {},
+        class: "form-select #{'is-invalid' if @task.errors[:status].any?}"
+    %>
+    <% if @task.errors[:status].any? %>
+      <div class="invalid-feedback">
+        <%= @task.errors[:status].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :priority, class: "form-label" %>
+    <%= f.select :priority,
+        options_for_select([
+          ["Low", "low"],
+          ["Medium", "medium"],
+          ["High", "high"]
+        ], @task.priority),
+        {},
+        class: "form-select #{'is-invalid' if @task.errors[:priority].any?}"
+    %>
+    <% if @task.errors[:priority].any? %>
+      <div class="invalid-feedback">
+        <%= @task.errors[:priority].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :due_date, class: "form-label" %>
+    <%= f.date_field :due_date, class: "form-control #{'is-invalid' if @task.errors[:due_date].any?}" %>
+    <% if @task.errors[:due_date].any? %>
+      <div class="invalid-feedback">
+        <%= @task.errors[:due_date].join(", ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.submit class: "btn btn-primary" %>
+<% end %>
