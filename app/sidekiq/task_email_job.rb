@@ -8,11 +8,11 @@ class TaskEmailJob
     TaskMailer.task_created(task).deliver_now
   rescue Mongoid::Errors::DocumentNotFound => e
     # Log the error but don't retry - the task is gone
-    Rails.logger.info "Task #{task_id} was not found, possibly deleted. Skipping email."
+    logger.info "Task #{task_id} was not found, possibly deleted. Skipping email."
     return # Don't retry, just exit gracefully
   rescue StandardError => e
     # Log other errors and let Sidekiq handle retries
-    Rails.logger.error "Error in TaskEmailJob for task #{task_id}: #{e.message}"
+    logger.error "Error in TaskEmailJob for task #{task_id}: #{e.message}"
     raise # Re-raise the error for Sidekiq to handle
   end
 end

@@ -1,23 +1,22 @@
 development:
   clients:
     default:
-      database: <%= ENV['DATABASE_NAME_DEV'] %>
-      hosts:
-        - <%= ENV['DB_HOST'] %>
+      uri: <%= ENV['MONGO_URL'] %>
       options:
         server_selection_timeout: 5
-
-  options:
-
-
 
 test:
   clients:
     default:
-      database: <%= ENV['DATABASE_NAME_TEST'] %>
-      hosts:
-        - <%= ENV['DB_HOST'] %>
+      uri: <%= ENV['MONGO_URL'] %>
       options:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGO_URL'] %>
+      options:
+        server_selection_timeout: 5

@@ -43,6 +43,10 @@ Rails.application.configure do
     enable_starttls_auto: true
 
   }
-  config.action_mailer.default_url_options = { host: ENV['SMTP_HOST'], port: ENV['SMTP_PORT'] }
+  config.action_mailer.default_url_options = { host: ENV['HOST'], port: ENV['PORT'] }
+
+  
+  Rails.application.routes.default_url_options[:host] = ENV['HOST'] || 'localhost'
+  Rails.application.routes.default_url_options[:port] = ENV['PORT'] || 3000
 
 end

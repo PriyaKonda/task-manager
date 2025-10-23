@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    logger.info("Login attempt: #{params[:email]}")
     user = User.where(email: params[:email]&.downcase&.strip).first
     
     if user&.authenticate(params[:password])
@@ -24,7 +25,8 @@ class SessionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   rescue => e
-    Rails.logger.error("Login error: #{e.message}\n#{e.backtrace.join("\n")}")
+    logger.error("Login error: #{e.message}")
+    logger.error("Backtrace:\n#{e.backtrace.join("\n")}")
     flash.now[:error] = "An unexpected error occurred. Please try again later."
     render :new, status: :unprocessable_entity
   end

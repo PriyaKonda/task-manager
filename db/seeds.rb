@@ -10,15 +10,15 @@ puts "Creating users..."
 users = []
 
 users << User.create!(
-  email: "john@example.com",
-  name: "John Doe",
-  password: "password123"
+  email: "priyashirisha3224@gmail.com",
+  name: "Priya Konda",
+  password: "123456"
 )
 
 users << User.create!(
-  email: "jane@example.com",
-  name: "Jane Smith",
-  password: "password123"
+  email: "sampathsanjeevareddy@gmail.com",
+  name: "Uday Kiran",
+  password: "123456"
 )
 
 users << User.create!(

@@ -29,6 +29,7 @@ class TasksController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   rescue => e
+    logger.error("Task creation error: #{e.message}\n#{e.backtrace.join("\n")}")
     flash.now[:error] = "Error creating task. Please try again."
     render :new, status: :unprocessable_entity
   end
@@ -76,7 +77,4 @@ class TasksController < ApplicationController
     redirect_to tasks_path, alert: "Task not found or you don't have permission to access it."
   end
 
-  def task_params
-    params.require(:task).permit(:title, :description, :status, :priority)
-  end
 end

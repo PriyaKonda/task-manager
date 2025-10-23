@@ -9,7 +9,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.email = @user.email.downcase.strip
 
+    logger.info("User created #{@user.email}")
+
     if @user.save
+      logger.info("user saved")
       redirect_to login_path, notice: 'Account created successfully! Please log in.'
     else
       render :new, status: :unprocessable_entity

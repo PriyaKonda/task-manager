@@ -22,7 +22,7 @@ class AblyService
 
         channel.publish('task-update', data)
       rescue StandardError => e
-        Rails.logger.error "Ably publish error: #{e.message}\n#{e.backtrace.join("\n")}"
+        logger.error "Ably publish error: #{e.message}\n#{e.backtrace.join("\n")}"
       end
     end
 
@@ -36,7 +36,7 @@ class AblyService
       
       client.auth.create_token_request(token_params)
     rescue StandardError => e
-      Rails.logger.error "Ably token error: #{e.message}\n#{e.backtrace.join("\n")}"
+      logger.error "Ably token error: #{e.message}\n#{e.backtrace.join("\n")}"
       nil
     end
   end
