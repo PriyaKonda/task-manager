@@ -2,8 +2,37 @@ kind: pipeline
 type: docker
 name: test-and-build
 
-env_file:
-  - .env
+steps:
+  - name: install-dependencies
+    image: ruby:3.1
+    environment:
+      REDIS_URL: ${REDIS_URL}
+      MONGODB_URI: ${MONGODB_URI}
+    commands:
+      - apt-get update -qq && apt-get install -y nodejs npm
+      - gem install bundler
+      - bundle install
+
+  - name: setup-database
+    image: ruby:3.1
+    environment:
+      RAILS_ENV: test
+      REDIS_URL: ${REDIS_URL}
+      MONGODB_URI: ${MONGODB_URI}
+    commands:
+      - bundle exec rake db:create
+      - bundle exec rake db:schema:load
+
+  - name: run-tests
+    image: ruby:3.1
+    environment:
+      RAILS_ENV: test
+      REDIS_URL: ${REDIS_URL}
+      MONGODB_URI: ${MONGODB_URI}
+    commands:
+      # Start Sidekiq in the background for the test run
+      - bundle exec sidekiq -q default -d
+      - bundle exec rails test
 
 services:
   redis:
@@ -15,39 +44,3 @@ services:
     image: mongo:6
     ports:
       - 27017:27017
-
-  sidekiq:
-    image: ruby:3.1
-    command: >
-      sh -c "bundle exec sidekiq -q default -d"
-    environment:
-      REDIS_URL: ${REDIS_URL}
-
-steps:
-  - name: install-dependencies
-    image: ruby:3.1
-    commands:
-      - apt-get update -qq && apt-get install -y nodejs npm
-      - gem install bundler
-      - bundle install
-
-  - name: setup-database
-    image: ruby:3.1
-    environment:
-      RAILS_ENV: test
-      MONGODB_URI: ${MONGO_URL_TEST}
-    commands:
-      - bundle exec rake db:create
-      - bundle exec rake db:schema:load
-
-  - name: run-tests
-    image: ruby:3.1
-    environment:
-      RAILS_ENV: test
-      REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGO_URL_TEST}
-    commands:
-      # Start Sidekiq in the background for the test run
-      - bundle exec sidekiq -q default -d
-      # Run Rails tests
-      - bundle exec rails test
