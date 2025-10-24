@@ -15,6 +15,7 @@ steps:
       - apt-get update -qq && apt-get install -y nodejs npm
       - gem install bundler:2.7.2
       - rm -rf vendor/bundle
+      - bundle lock --add-platform x86_64-linux
       - bundle _2.7.2_ install --jobs 4 --retry 3
 
   - name: setup-database
@@ -24,18 +25,18 @@ steps:
       REDIS_URL: ${REDIS_URL}
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
-      - bundle exec rake db:create
-      - bundle exec rake db:schema:load
+      - bundle _2.7.2_ exec rake db:create
+      - bundle _2.7.2_ exec rake db:schema:load
 
   - name: run-tests
     image: ruby:3.4
     environment:
       RAILS_ENV: test
       REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_URI: ${MONGO_URL_TEST}
     commands:
-      - bundle exec sidekiq -q default -d
-      - bundle exec rails test
+      - bundle _2.7.2_ exec sidekiq -q default -d
+      - bundle _2.7.2_ exec rails test
 
 services:
   - name: redis
