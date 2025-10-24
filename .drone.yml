@@ -30,17 +30,16 @@ steps:
       REDIS_URL: ${REDIS_URL}
       MONGODB_URI: ${MONGODB_URI}
     commands:
-      # Start Sidekiq in the background for the test run
       - bundle exec sidekiq -q default -d
       - bundle exec rails test
 
 services:
-  redis:
+  - name: redis
     image: redis:7
     ports:
       - 6379:6379
 
-  mongo:
+  - name: mongo
     image: mongo:6
     ports:
       - 27017:27017
