@@ -10,10 +10,11 @@ steps:
     image: ruby:3.4
     environment:
       REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_URI: ${MONGO_URL_TEST}
     commands:
       - apt-get update -qq && apt-get install -y nodejs npm
       - gem install bundler
+      - rm -rf vendor/bundle
       - bundle install
 
   - name: setup-database
@@ -21,7 +22,7 @@ steps:
     environment:
       RAILS_ENV: test
       REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_URI: ${MONGO_URL_TEST}
     commands:
       - bundle exec rake db:create
       - bundle exec rake db:schema:load
