@@ -5,22 +5,29 @@ services:
     image: drone/drone:2
     container_name: drone-server
     ports:
-      - 8080:80  
+      - 8080:80
     volumes:
       - ./drone-data:/data
     restart: always
-    env_file:
-      - .env
     environment:
+      # GitHub OAuth
       - DRONE_GITHUB_CLIENT_ID=${DRONE_GITHUB_CLIENT_ID}
       - DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}
       - DRONE_GITHUB_SERVER=https://github.com
+      
+      # Server Configuration
       - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
       - DRONE_SERVER_HOST=${DRONE_SERVER_HOST}
       - DRONE_SERVER_PROTO=${DRONE_SERVER_PROTO}
+      
+      # User Configuration
       - DRONE_USER_CREATE=username:${GITHUB_USERNAME},admin:true
+      
+      # Logging
       - DRONE_LOGS_DEBUG=true
       - DRONE_LOGS_TRACE=true
+    env_file:
+      - .env
 
   drone-runner:
     image: drone/drone-runner-docker:1
@@ -31,10 +38,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_RPC_PROTO=https
+      # CRITICAL: Connect to drone-server via Docker network, not ngrok
+      - DRONE_RPC_PROTO=http
       - DRONE_RPC_HOST=drone-server
       - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+      
+      # Runner Configuration
       - DRONE_RUNNER_CAPACITY=2
       - DRONE_RUNNER_NAME=local-runner
-      - DRONE_LOGS_DEBUG=true
-      - DRONE_LOGS_TRACE=true
+      
+      # Logging
+      - DRONE_DEBUG=true
+      - DRONE_TRACE=true
