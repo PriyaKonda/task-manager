@@ -7,7 +7,7 @@ platform:
 
 steps:
   - name: install-dependencies
-    image: ruby:3.1
+    image: ruby:3.4
     environment:
       REDIS_URL: ${REDIS_URL}
       MONGODB_URI: ${MONGODB_URI}
@@ -17,7 +17,7 @@ steps:
       - bundle install
 
   - name: setup-database
-    image: ruby:3.1
+    image: ruby:3.4
     environment:
       RAILS_ENV: test
       REDIS_URL: ${REDIS_URL}
@@ -27,7 +27,7 @@ steps:
       - bundle exec rake db:schema:load
 
   - name: run-tests
-    image: ruby:3.1
+    image: ruby:3.4
     environment:
       RAILS_ENV: test
       REDIS_URL: ${REDIS_URL}
