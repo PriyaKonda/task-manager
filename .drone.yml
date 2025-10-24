@@ -13,9 +13,9 @@ steps:
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
       - apt-get update -qq && apt-get install -y nodejs npm
-      - gem install bundler
+      - gem install bundler:2.7.2
       - rm -rf vendor/bundle
-      - bundle install
+      - bundle _2.7.2_ install --jobs 4 --retry 3
 
   - name: setup-database
     image: ruby:3.4
