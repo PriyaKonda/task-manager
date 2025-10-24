@@ -5,7 +5,7 @@ services:
     image: drone/drone:2
     container_name: drone-server
     ports:
-      - 8080:80   # Drone UI accessible at http://localhost:8080
+      - 8080:80  
     volumes:
       - ./drone-data:/data
     restart: always
