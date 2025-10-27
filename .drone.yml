@@ -16,7 +16,8 @@ steps:
       - gem install bundler:2.7.2
       - rm -rf vendor/bundle
       - bundle lock --add-platform x86_64-linux
-      - bundle _2.7.2_ install --jobs 4 --retry 3 --path vendor/bundle
+      - bundle _2.7.2_ config set --local path 'vendor/bundle'
+      - bundle _2.7.2_ install --jobs 4 --retry 3
 
   - name: setup-database
     image: ruby:3.4
@@ -26,6 +27,7 @@ steps:
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
       - gem install bundler:2.7.2
+      - bundle _2.7.2_ config set --local path 'vendor/bundle'
       - bundle _2.7.2_ exec rake db:create
       - bundle _2.7.2_ exec rake db:schema:load
 
@@ -37,6 +39,7 @@ steps:
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
       - gem install bundler:2.7.2
+      - bundle _2.7.2_ config set --local path 'vendor/bundle'
       - bundle _2.7.2_ exec sidekiq -q default -d
       - bundle _2.7.2_ exec rails test
 
