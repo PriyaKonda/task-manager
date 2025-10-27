@@ -25,6 +25,7 @@ steps:
       REDIS_URL: ${REDIS_URL}
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
+      - gem install bundler:2.7.2
       - bundle _2.7.2_ exec rake db:create
       - bundle _2.7.2_ exec rake db:schema:load
 
@@ -35,6 +36,7 @@ steps:
       REDIS_URL: ${REDIS_URL}
       MONGODB_URI: ${MONGO_URL_TEST}
     commands:
+      - gem install bundler:2.7.2
       - bundle _2.7.2_ exec sidekiq -q default -d
       - bundle _2.7.2_ exec rails test
 
