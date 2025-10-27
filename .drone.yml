@@ -13,7 +13,7 @@ steps:
       REDIS_URL:
         from_secret: redis_url
       MONGODB_URI:
-        from_secret: mongodb_uri
+        from_secret: mongo_url_test
     commands:
       - apt-get update -qq && apt-get install -y nodejs npm
       - gem install bundler:2.7.2
@@ -29,7 +29,7 @@ steps:
       REDIS_URL:
         from_secret: redis_url
       MONGODB_URI:
-        from_secret: mongodb_uri
+        from_secret: mongo_url_test
     commands:
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
@@ -43,7 +43,7 @@ steps:
       REDIS_URL:
         from_secret: redis_url
       MONGODB_URI:
-        from_secret: mongodb_uri
+        from_secret: mongo_url_test
     commands:
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
