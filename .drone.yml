@@ -47,7 +47,8 @@ steps:
     commands:
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
-      - bundle _2.7.2_ exec sidekiq -q default -d
+      - bundle _2.7.2_ exec sidekiq -q default > /dev/null 2>&1 &
+      - sleep 5
       - bundle _2.7.2_ exec rails test
 
 services:
