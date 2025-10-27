@@ -9,8 +9,11 @@ steps:
   - name: install-dependencies
     image: ruby:3.4
     environment:
-      REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGO_URL_TEST}
+      RAILS_ENV: test
+      REDIS_URL:
+        from_secret: redis_url
+      MONGODB_URI:
+        from_secret: mongodb_uri
     commands:
       - apt-get update -qq && apt-get install -y nodejs npm
       - gem install bundler:2.7.2
@@ -23,8 +26,10 @@ steps:
     image: ruby:3.4
     environment:
       RAILS_ENV: test
-      REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGO_URL_TEST}
+      REDIS_URL:
+        from_secret: redis_url
+      MONGODB_URI:
+        from_secret: mongodb_uri
     commands:
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
@@ -35,8 +40,10 @@ steps:
     image: ruby:3.4
     environment:
       RAILS_ENV: test
-      REDIS_URL: ${REDIS_URL}
-      MONGODB_URI: ${MONGO_URL_TEST}
+      REDIS_URL:
+        from_secret: redis_url
+      MONGODB_URI:
+        from_secret: mongodb_uri
     commands:
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
