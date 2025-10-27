@@ -8,7 +8,7 @@ development:
 test:
   clients:
     default:
-      uri: <%= ENV['MONGO_URL'] %>
+      uri: <%= ENV['MONGO_URL_TEST'] %>
       options:
         read:
           mode: :primary
