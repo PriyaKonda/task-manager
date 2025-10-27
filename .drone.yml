@@ -12,9 +12,7 @@ steps:
       RAILS_ENV: test
       REDIS_URL:
         from_secret: redis_url
-      MONGODB_URI:
-        from_secret: mongo_url_test
-      MONGO_URL:
+      MONGO_URL_TEST:
         from_secret: mongo_url_test
     commands:
       - apt-get update -qq && apt-get install -y nodejs npm
@@ -30,9 +28,7 @@ steps:
       RAILS_ENV: test
       REDIS_URL:
         from_secret: redis_url
-      MONGODB_URI:
-        from_secret: mongo_url_test
-      MONGO_URL:
+      MONGO_URL_TEST:
         from_secret: mongo_url_test
     commands:
       - gem install bundler:2.7.2
@@ -46,13 +42,9 @@ steps:
       RAILS_ENV: test
       REDIS_URL:
         from_secret: redis_url
-      MONGODB_URI:
-        from_secret: mongo_url_test
-      MONGO_URL:
+      MONGO_URL_TEST:
         from_secret: mongo_url_test
     commands:
-      - echo "MONGODB_URI is $MONGODB_URI"
-      - echo "MONGO_URL is $MONGO_URL"
       - gem install bundler:2.7.2
       - bundle _2.7.2_ config set --local path 'vendor/bundle'
       - bundle _2.7.2_ exec sidekiq -q default > /dev/null 2>&1 &
