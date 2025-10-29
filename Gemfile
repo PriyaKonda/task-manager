@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.3"
+gem "rails", "~> 8.0.4"
 gem "propshaft"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
